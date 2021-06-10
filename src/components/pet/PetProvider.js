@@ -24,9 +24,18 @@ export const PetProvider = (props) => {
             .then(response => response.json())
             .then(setPets)
     }
+    const deletePet = (petId) => {
+        return fetch(`http://localhost:8000/pets/${petId}`,{
+            method:"DELETE",
+            headers:{
+                "Authorization": `Token ${localStorage.getItem("lu_token")}`
+            }
+        })
+        .then(()=> getPets())
+    }
 
     return (
-        <PetContext.Provider value={{pets, getPets, createPet}} >
+        <PetContext.Provider value={{pets, getPets, createPet, deletePet}} >
             { props.children }
         </PetContext.Provider>
     )
