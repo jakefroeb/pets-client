@@ -5,10 +5,12 @@ import { PetContext } from "./PetProvider";
 
 export const PetList = () =>{
     const {getAnimalTypes, animalTypes} = useContext(AnimalTypeContext)
-    const {createPet, getPets, pets} = useContext(PetContext)
+    const {createPet, getPets, pets, deletePet} = useContext(PetContext)
     const [modal, setModal] = useState(false)
     const [dropdown, setDropdown] = useState(false)
+    const [deleteModal, setDeleteModal] = useState(false)
     const [newPet, setNewPet] = useState({"animal":0, "name":""})
+    const [selectedPetId, setSelectedPetId] = useState(0)
 
     useEffect(()=>{
         getAnimalTypes().then(()=> getPets())
@@ -25,12 +27,16 @@ export const PetList = () =>{
             alert("please fill out all fields")
             }
     }
+    const handleDeleteClicked = (petId) => {
+        setDeleteModal(!deleteModal)
+        setSelectedPetId(petId)
+    }
     
     return(
         <>{console.log(pets)}
-        <div>
-            <Button color="success" onClick={toggle}>Get a Pet</Button>
-            <Modal isOpen={modal} className="petModal">
+            <div>
+                <Button color="success" onClick={toggle}>Get a Pet</Button>
+                <Modal isOpen={modal} className="petModal">
                 <ModalHeader>Choose a Pet</ModalHeader>
                 <ModalBody>
                 <Dropdown isOpen={dropdown} toggle={toggleDropdown}>
@@ -53,8 +59,33 @@ export const PetList = () =>{
                     <Button color="secondary" onClick={toggle}>Cancel</Button>
                 </ModalFooter>
             </Modal>
-    </div>
-        
+                <h2>Your Pets</h2>
+                {pets.map(pet => {
+                    return(
+                        <Media>
+                            <Media left top>
+                                <Media object src="http://localhost:8000/media/dog_images/happy-dog.jpeg" style = {{maxHeight: 256,maxWidth: 256}} alt="doggo" />
+                            </Media>
+                            <Media body>
+                                <Media heading>
+                                    {pet.name}
+                                </Media>
+                                <Button color="danger" onClick={(e)=>{e.preventDefault()
+                                                                        handleDeleteClicked(pet.id)}}>Delete</Button>
+                            </Media>
+                        </Media>
+                    )
+                })}
+                <Modal isOpen={deleteModal} className="deleteModal">
+                    <ModalHeader>Are You Sure</ModalHeader>
+                    <ModalFooter>
+                        <Button color="danger" onClick={(e)=>{e.preventDefault()
+                                                            deletePet(selectedPetId).then(()=>handleDeleteClicked(0))}}>Delete Pet</Button>{' '}
+                        <Button color="secondary" onClick={(e)=>{ e.preventDefault()
+                                                            handleDeleteClicked(0)}}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
+            </div>
         </>
     )
 }
