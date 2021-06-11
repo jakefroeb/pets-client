@@ -2,10 +2,11 @@ import { useContext, useEffect, useState } from "react"
 import { AnimalTypeContext } from "./AnimalTypeProvider"
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Dropdown, DropdownMenu, DropdownItem, DropdownToggle, Media, Input, Alert } from 'reactstrap';
 import { PetContext } from "./PetProvider";
+import DjangoCSRFToken from 'django-react-csrftoken'
 
 export const PetList = () =>{
     const {getAnimalTypes, animalTypes} = useContext(AnimalTypeContext)
-    const {createPet, getPets, pets, deletePet} = useContext(PetContext)
+    const {createPet, getPets, pets, deletePet, interactWithPet} = useContext(PetContext)
     const [modal, setModal] = useState(false)
     const [dropdown, setDropdown] = useState(false)
     const [deleteModal, setDeleteModal] = useState(false)
@@ -30,6 +31,9 @@ export const PetList = () =>{
     const handleDeleteClicked = (petId) => {
         setDeleteModal(!deleteModal)
         setSelectedPetId(petId)
+    }
+    const handleActionClicked = (petId, actionId) => {
+        interactWithPet(petId, actionId)
     }
     
     return(
@@ -61,6 +65,7 @@ export const PetList = () =>{
             </Modal>
                 <h2>Your Pets</h2>
                 {pets.map(pet => {
+                    console.log(pet)
                     return(
                         <Media>
                             <Media left top>
@@ -71,7 +76,14 @@ export const PetList = () =>{
                                     {pet.name}
                                 </Media>
                                 <Button color="danger" onClick={(e)=>{e.preventDefault()
-                                                                        handleDeleteClicked(pet.id)}}>Delete</Button>
+                                                                handleDeleteClicked(pet.id)}}>Delete</Button>
+                                {pet.animal_type.actions.map(action => {
+
+                                    return(<Button color="info" onClick={(e)=>{
+                                        e.preventDefault()
+                                        handleActionClicked(pet.id, action.id)
+                                    }}>{action.name}</Button>)
+                                })}
                             </Media>
                         </Media>
                     )

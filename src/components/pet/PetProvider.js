@@ -1,4 +1,6 @@
 import React, { useState } from "react"
+import { getCookie } from 'xsrf-cookie'
+
 
 export const PetContext = React.createContext()
 
@@ -33,9 +35,19 @@ export const PetProvider = (props) => {
         })
         .then(()=> getPets())
     }
+    const interactWithPet = (petId, actionId) => {
+        return fetch(`http://localhost:8000/pets/${petId}/interact`,{
+            method:"POST",
+            headers:{
+                "Authorization": `Token ${localStorage.getItem("lu_token")}`,
+                "Content-Type" : "application/json"
+            },
+            body : JSON.stringify({"action":actionId})
+        })
+    }
 
     return (
-        <PetContext.Provider value={{pets, getPets, createPet, deletePet}} >
+        <PetContext.Provider value={{pets, getPets, createPet, deletePet, interactWithPet}} >
             { props.children }
         </PetContext.Provider>
     )
