@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react"
 import { AnimalTypeContext } from "./AnimalTypeProvider"
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Dropdown, DropdownMenu, DropdownItem, DropdownToggle, Media, Input, Alert } from 'reactstrap';
 import { PetContext } from "./PetProvider";
-import DjangoCSRFToken from 'django-react-csrftoken'
 
 export const PetList = () =>{
     const {getAnimalTypes, animalTypes} = useContext(AnimalTypeContext)

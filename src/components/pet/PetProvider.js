@@ -1,6 +1,4 @@
 import React, { useState } from "react"
-import { getCookie } from 'xsrf-cookie'
-
 
 export const PetContext = React.createContext()
 
