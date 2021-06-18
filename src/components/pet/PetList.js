@@ -68,7 +68,7 @@ export const PetList = () =>{
                     return(
                         <Media>
                             <Media left top>
-                                <Media object src="http://localhost:8000/media/dog_images/happy-dog.jpeg" style = {{maxHeight: 256,maxWidth: 256}} alt="doggo" />
+                                <Media object src={pet.image_url} style = {{maxHeight: 256,maxWidth: 256}} alt="doggo" />
                             </Media>
                             <Media body>
                                 <Media heading>

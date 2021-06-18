@@ -42,6 +42,7 @@ export const PetProvider = (props) => {
             },
             body : JSON.stringify({"action":actionId})
         })
+        .then(()=> getPets())
     }
 
     return (
