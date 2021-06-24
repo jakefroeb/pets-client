@@ -5,7 +5,7 @@ export const AnimalTypeContext = React.createContext()
 export const AnimalTypeProvider = (props) => {
     const [animalTypes, setAnimalTypes] = useState([])
     const getAnimalTypes = () => {
-        return fetch("http://localhost:8000/animaltypes", {
+        return fetch("https://jakes-pets.herokuapp.com/animaltypes", {
             headers:{
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }

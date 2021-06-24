@@ -5,7 +5,7 @@ export const PetContext = React.createContext()
 export const PetProvider = (props) => {
     const [pets, setPets] = useState([])
     const createPet = (pet) => {
-        return fetch("http://localhost:8000/pets", { 
+        return fetch("https://jakes-pets.herokuapp.com/pets", { 
             method:"POST",
             headers:{
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`,
@@ -16,7 +16,7 @@ export const PetProvider = (props) => {
             .then(getPets)
     }
     const getPets = () => {
-        return fetch("http://localhost:8000/pets", {
+        return fetch("https://jakes-pets.herokuapp.com/pets", {
             headers:{
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
@@ -25,7 +25,7 @@ export const PetProvider = (props) => {
             .then(setPets)
     }
     const deletePet = (petId) => {
-        return fetch(`http://localhost:8000/pets/${petId}`,{
+        return fetch(`https://jakes-pets.herokuapp.com/pets/${petId}`,{
             method:"DELETE",
             headers:{
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
@@ -34,7 +34,7 @@ export const PetProvider = (props) => {
         .then(()=> getPets())
     }
     const interactWithPet = (petId, actionId) => {
-        return fetch(`http://localhost:8000/pets/${petId}/interact`,{
+        return fetch(`https://jakes-pets.herokuapp.com/pets/${petId}/interact`,{
             method:"POST",
             headers:{
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`,

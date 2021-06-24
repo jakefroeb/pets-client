@@ -36,7 +36,7 @@ export const PetList = () =>{
     }
     
     return(
-        <>{console.log(pets)}
+        <>
             <div>
                 <Button color="success" onClick={toggle}>Get a Pet</Button>
                 <Modal isOpen={modal} className="petModal">
@@ -52,7 +52,7 @@ export const PetList = () =>{
                                                                                     setNewPet(tempPet)}}>{animalType.name}</DropdownItem>)}
                     </DropdownMenu>
                 </Dropdown>
-                <Media object src="http://localhost:8000/media/dog_images/happy-dog.jpeg" style = {{maxHeight: 128,maxWidth: 128}} alt="doggo" />
+                <Media object src={newPet.animal === 1 ?"https://res.cloudinary.com/dx1wu27jf/image/upload/v1624455177/happy-dog_fn6esq.jpg" : "https://res.cloudinary.com/dx1wu27jf/image/upload/v1624455886/happy_turtle_jlqymf.jpg"} style = {{maxHeight: 128,maxWidth: 128}} alt="doggo" />
                 <Input placeholder="name" onChange={(e)=>{let tempPet = {...newPet}
                                     tempPet.name = e.target.value
                                     setNewPet(tempPet)}}></Input>
@@ -64,7 +64,6 @@ export const PetList = () =>{
             </Modal>
                 <h2>Your Pets</h2>
                 {pets.map(pet => {
-                    console.log(pet)
                     return(
                         <Media>
                             <Media left top>
@@ -76,13 +75,14 @@ export const PetList = () =>{
                                 </Media>
                                 <Button color="danger" onClick={(e)=>{e.preventDefault()
                                                                 handleDeleteClicked(pet.id)}}>Delete</Button>
-                                {pet.animal_type.actions.map(action => {
-
+                                {pet.available_actions.map(actionId => {
+                                    let action = pet.animal_type.actions.find(action => action.id === actionId)
+                                    if(action){
                                     return(<Button color="info" onClick={(e)=>{
-                                        e.preventDefault()
-                                        handleActionClicked(pet.id, action.id)
+                                    e.preventDefault()
+                                    handleActionClicked(pet.id, action.id)
                                     }}>{action.name}</Button>)
-                                })}
+                                }})}
                             </Media>
                         </Media>
                     )
